@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ChallengesChapter4CatatanHutang</string>
+    <string name="dummy_selamat_datang_text">Selamat Datang\,\ </string>
+    <string name="logout_text">Logout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tambah_pengutang_text">Tambah Pengutang</string>
+</resources>
