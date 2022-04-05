@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.than.challengeschapter4catatanhutang.adapter.PengutangAdapter
 import com.than.challengeschapter4catatanhutang.database.UtangDatabase
-import com.than.challengeschapter4catatanhutang.databinding.FormAddPengutangBinding
 import com.than.challengeschapter4catatanhutang.databinding.FragmentHomepageBinding
 import com.than.challengeschapter4catatanhutang.data.Pengutang
+import com.than.challengeschapter4catatanhutang.databinding.FormPengutangBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -44,7 +44,7 @@ class HomepageFragment : Fragment() {
 
         //
         binding.fabAdd.setOnClickListener{
-            val dialogBinding = FormAddPengutangBinding.inflate(LayoutInflater.from(requireContext()))
+            val dialogBinding = FormPengutangBinding.inflate(LayoutInflater.from(requireContext()))
             val dialogBuilder = AlertDialog.Builder(requireContext())
             dialogBuilder.setView(dialogBinding.root)
             val dialog = dialogBuilder.create()
@@ -134,6 +134,56 @@ class HomepageFragment : Fragment() {
                                 .setTitle("Konfirmasi Hapus")
                                 .create()
                                 .show()
+                        },
+                        update = { pengutang ->
+                            val dialogBinding = FormPengutangBinding.inflate(LayoutInflater.from(requireContext()))
+                            val dialogBuilder = AlertDialog.Builder(requireContext())
+                            dialogBuilder.setView(dialogBinding.root)
+                            val dialog = dialogBuilder.create()
+                            dialog.setCancelable(false)
+                            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                            dialogBinding.tvTitle.text = "Edit Pengutang"
+                            dialogBinding.btnSubmit.text = "Update"
+                            dialogBinding.tvId.text = "${pengutang.id_pengutang}"
+                            dialogBinding.etNamaPengutang.setText("${pengutang.nama_pengutang}")
+                            dialogBinding.etJumlahHutang.setText("${pengutang.jumlah_utang}")
+                            dialogBinding.etDeskripsi.setText("${pengutang.deskripsi}")
+                            dialogBinding.btnCancel.setOnClickListener{
+                                dialog.dismiss()
+                            }
+                            dialogBinding.btnSubmit.setOnClickListener{
+                                val myDB = UtangDatabase.getInstance(requireContext())
+                                val dataPengutang = Pengutang(
+                                    dialogBinding.tvId.text.toString().toInt(),
+                                    dialogBinding.etNamaPengutang.text.toString(),
+                                    dialogBinding.etJumlahHutang.text.toString().toInt(),
+                                    dialogBinding.etDeskripsi.text.toString(),
+                                    dialogBinding.tvTanggal.text.toString(),
+                                    "Sulthan"
+                                )
+                                lifecycleScope.launch(Dispatchers.IO){
+                                    val result = myDB?.pengutangdao()?.updatePengutang(dataPengutang)
+                                    runBlocking(Dispatchers.Main){
+                                        if (result != 0){
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Pengutang ${dataPengutang.nama_pengutang} Berhasil Di Update!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            fetchData()
+                                            dialog.dismiss()
+                                        } else {
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Pengutang ${dataPengutang.nama_pengutang} Gagal Di update!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            dialog.dismiss()
+                                        }
+                                    }
+                                }
+                            }
+                            dialog.show()
                         }
                     )
                     binding.rvHomepage.adapter = adapter

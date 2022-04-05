@@ -9,7 +9,8 @@ import com.than.challengeschapter4catatanhutang.databinding.ListUtangItemBinding
 class PengutangAdapter(
     private val listPengutang: List<Pengutang>,
     private val detail: (Pengutang)->Unit,
-    private val delete: (Pengutang)->Unit
+    private val delete: (Pengutang)->Unit,
+    private val update: (Pengutang)->Unit
 ): RecyclerView.Adapter<PengutangAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ListUtangItemBinding): RecyclerView.ViewHolder(binding.root)
@@ -30,7 +31,9 @@ class PengutangAdapter(
         holder.binding.btnDelete.setOnClickListener{
             delete.invoke(listPengutang[position])
         }
-
+        holder.binding.btnEdit.setOnClickListener {
+            update.invoke(listPengutang[position])
+        }
     }
 
     override fun getItemCount(): Int {
