@@ -8,6 +8,8 @@ import com.than.challengeschapter4catatanhutang.databinding.ListUtangItemBinding
 
 class PengutangAdapter(
     private val listPengutang: List<Pengutang>,
+    private val detail: (Pengutang)->Unit,
+    private val delete: (Pengutang)->Unit
 ): RecyclerView.Adapter<PengutangAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ListUtangItemBinding): RecyclerView.ViewHolder(binding.root)
@@ -21,6 +23,13 @@ class PengutangAdapter(
         holder.binding.tvJumlahHutang.text = listPengutang[position].jumlah_utang.toString()
         holder.binding.tvNamaKasir.text = listPengutang[position].nama_kasir
         holder.binding.tvTanggalUtang.text = listPengutang[position].tanggal
+
+        holder.binding.btnDetil.setOnClickListener{
+            detail.invoke(listPengutang[position])
+        }
+        holder.binding.btnDelete.setOnClickListener{
+            delete.invoke(listPengutang[position])
+        }
 
     }
 

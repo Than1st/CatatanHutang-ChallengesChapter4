@@ -18,7 +18,7 @@ abstract class UtangDatabase : RoomDatabase() {
         fun getInstance(context: Context):UtangDatabase?{
             if(INSTANCE == null){
                 synchronized(UtangDatabase::class){
-                    INSTANCE = Room.databaseBuilder(context.applicationContext, UtangDatabase::class.java, "utangDatabase.db").build()
+                    INSTANCE = Room.databaseBuilder(context.applicationContext, UtangDatabase::class.java, "db_utang.db").build()
                 }
             }
             return INSTANCE

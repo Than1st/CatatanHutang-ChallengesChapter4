@@ -10,7 +10,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Kasir(
     @PrimaryKey(autoGenerate = true) var id_kasir: Int?,
-    @ColumnInfo(name = "nama") var nama: String,
     @ColumnInfo(name = "username") var username: String,
     @ColumnInfo(name = "password") var password: String
 ) : Parcelable

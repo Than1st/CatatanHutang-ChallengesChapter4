@@ -94,7 +94,48 @@ class HomepageFragment : Fragment() {
             val listPengutang = utangDatabase?.pengutangdao()?.getAllPengutang()
             activity?.runOnUiThread{
                 listPengutang?.let {
-                    val adapter = PengutangAdapter(it)
+                    val adapter = PengutangAdapter(
+                        it,
+                        detail = { pengutang ->
+                            AlertDialog.Builder(requireContext()).apply {
+                                setMessage("${pengutang.deskripsi}")
+                                setTitle("${pengutang.nama_pengutang}")
+                                show()
+                            }
+                        },
+                        delete = { pengutang ->
+                            AlertDialog.Builder(requireContext())
+                                .setPositiveButton("Iya"){_,_ ->
+                                    val mDb = UtangDatabase.getInstance(requireContext())
+                                    lifecycleScope.launch(Dispatchers.IO){
+                                        val result = mDb?.pengutangdao()?.deletePengutang(pengutang)
+                                        activity?.runOnUiThread{
+                                            if(result != 0){
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    "${pengutang.nama_pengutang} berhasil dihapus",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            } else {
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    "${pengutang.nama_pengutang} gagal dihapus",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        }
+                                        fetchData()
+                                    }
+                                }
+                                .setNegativeButton("Tidak"){ dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .setMessage("Apakah anda yakin ingin menghapus ${pengutang.nama_pengutang}")
+                                .setTitle("Konfirmasi Hapus")
+                                .create()
+                                .show()
+                        }
+                    )
                     binding.rvHomepage.adapter = adapter
                 }
             }
