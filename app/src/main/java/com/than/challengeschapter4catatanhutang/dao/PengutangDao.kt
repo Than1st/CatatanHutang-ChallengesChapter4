@@ -2,7 +2,7 @@ package com.than.challengeschapter4catatanhutang.dao
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import com.than.challengeschapter4catatanhutang.model.Pengutang
+import com.than.challengeschapter4catatanhutang.data.Pengutang
 
 @Dao
 interface PengutangDao {

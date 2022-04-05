@@ -1,4 +1,4 @@
-package com.than.challengeschapter4catatanhutang.model
+package com.than.challengeschapter4catatanhutang.data
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
