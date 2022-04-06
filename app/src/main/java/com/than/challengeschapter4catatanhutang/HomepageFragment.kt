@@ -1,5 +1,6 @@
 package com.than.challengeschapter4catatanhutang
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -18,6 +19,8 @@ import com.than.challengeschapter4catatanhutang.databinding.FormPengutangBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class HomepageFragment : Fragment() {
     private var _binding: FragmentHomepageBinding? = null
@@ -50,6 +53,7 @@ class HomepageFragment : Fragment() {
             val dialog = dialogBuilder.create()
             dialog.setCancelable(false)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBinding.tvTanggal.text = getDate()
             dialogBinding.btnCancel.setOnClickListener{
                 dialog.dismiss()
             }
@@ -60,7 +64,7 @@ class HomepageFragment : Fragment() {
                     dialogBinding.etNamaPengutang.text.toString(),
                     dialogBinding.etJumlahHutang.text.toString().toInt(),
                     dialogBinding.etDeskripsi.text.toString(),
-                    dialogBinding.tvTanggal.text.toString(),
+                    getDate(),
                     "Sulthan"
                 )
                 lifecycleScope.launch(Dispatchers.IO){
@@ -89,6 +93,14 @@ class HomepageFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NewApi")
+    private fun getDate(): String {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy (HH:mm)")
+
+        return current.format(formatter)
+    }
+
     private fun fetchData(){
         lifecycleScope.launch(Dispatchers.IO){
             val listPengutang = utangDatabase?.pengutangdao()?.getAllPengutang()
@@ -98,8 +110,8 @@ class HomepageFragment : Fragment() {
                         it,
                         detail = { pengutang ->
                             AlertDialog.Builder(requireContext()).apply {
-                                setMessage("${pengutang.deskripsi}")
-                                setTitle("${pengutang.nama_pengutang}")
+                                setMessage(pengutang.deskripsi)
+                                setTitle(pengutang.nama_pengutang)
                                 show()
                             }
                         },
@@ -142,12 +154,13 @@ class HomepageFragment : Fragment() {
                             val dialog = dialogBuilder.create()
                             dialog.setCancelable(false)
                             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                            dialogBinding.tvTitle.text = "Edit Pengutang"
-                            dialogBinding.btnSubmit.text = "Update"
+                            dialogBinding.tvTanggal.text = getDate()
+                            dialogBinding.tvTitle.text = getString(R.string.edit_pengutang_text)
+                            dialogBinding.btnSubmit.text = getString(R.string.update_text)
                             dialogBinding.tvId.text = "${pengutang.id_pengutang}"
-                            dialogBinding.etNamaPengutang.setText("${pengutang.nama_pengutang}")
+                            dialogBinding.etNamaPengutang.setText(pengutang.nama_pengutang)
                             dialogBinding.etJumlahHutang.setText("${pengutang.jumlah_utang}")
-                            dialogBinding.etDeskripsi.setText("${pengutang.deskripsi}")
+                            dialogBinding.etDeskripsi.setText(pengutang.deskripsi)
                             dialogBinding.btnCancel.setOnClickListener{
                                 dialog.dismiss()
                             }
@@ -158,7 +171,7 @@ class HomepageFragment : Fragment() {
                                     dialogBinding.etNamaPengutang.text.toString(),
                                     dialogBinding.etJumlahHutang.text.toString().toInt(),
                                     dialogBinding.etDeskripsi.text.toString(),
-                                    dialogBinding.tvTanggal.text.toString(),
+                                    getDate(),
                                     "Sulthan"
                                 )
                                 lifecycleScope.launch(Dispatchers.IO){

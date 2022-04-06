@@ -5,4 +5,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tambah_pengutang_text">Tambah Pengutang</string>
+    <string name="edit_pengutang_text">Edit Pengutang</string>
+    <string name="update_text">Update</string>
 </resources>
