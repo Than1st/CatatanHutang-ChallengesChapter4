@@ -76,11 +76,19 @@ class HomepageFragment : Fragment() {
         }
         binding.toolbar.tvWelcome.text = getString(R.string.dummy_selamat_datang_text, nama)
         binding.toolbar.btnTextLogout.setOnClickListener{
-            val editor = sharedPreferences.edit()
-            editor.clear()
-            editor.apply()
-            Toast.makeText(requireContext(), "Anda Telah Logout!", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_homepageFragment2_to_loginFragment)
+            AlertDialog.Builder(requireContext()).setPositiveButton("Logout"){ p0, p1 ->
+                val editor = sharedPreferences.edit()
+                editor.clear()
+                editor.apply()
+                Toast.makeText(requireContext(), "Anda Telah Logout!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_homepageFragment2_to_loginFragment)
+            }.setNegativeButton("Batal"){dialog,_->
+                dialog.dismiss()
+            }
+            .setMessage("Anda ingin Logout?")
+            .setTitle("Konfirmasi Logout")
+            .create()
+            .show()
         }
         //
         binding.fabAdd.setOnClickListener{
