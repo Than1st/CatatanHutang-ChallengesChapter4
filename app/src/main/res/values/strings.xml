@@ -4,7 +4,34 @@
     <string name="logout_text">Logout</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tambah_pengutang_text">Tambah Pengutang</string>
     <string name="edit_pengutang_text">Edit Pengutang</string>
     <string name="update_text">Update</string>
+    <string name="tambah_pengutang_text">Tambah Pengutang</string>
+    <string name="_19_04_2022_text">19/04/2022</string>
+    <string name="nama_pengutang_text">Nama Pengutang</string>
+    <string name="jumlah_hutang_text">Jumlah Hutang</string>
+    <string name="deskripsi_text">Deskripsi</string>
+    <string name="submit_text">Submit</string>
+    <string name="batal_text">Batal</string>
+    <string name="empty_text">empty</string>
+    <string name="kosong_gada_yang_ngutang_text">Kosong! Gada yang ngutang…</string>
+    <string name="image_login_text">image login</string>
+    <string name="login_text">Login</string>
+    <string name="username_text">Username</string>
+    <string name="password_text">Password</string>
+    <string name="atau_text">Atau</string>
+    <string name="register_text">Register</string>
+    <string name="confirm_password_text">Confirm Password</string>
+    <string name="regiter_image_text">regiter image</string>
+    <string name="splash_image_text">splash image</string>
+    <string name="catatan_hutang_text">Catatan Hutang</string>
+    <string name="nama_pengutang_list_text">Nama Pengutang :</string>
+    <string name="jumlah_hutang_list_text">Jumlah Hutang :</string>
+    <string name="dummy_nama">Sulthan</string>
+    <string name="dummy_jumlah">Rp. 200.000</string>
+    <string name="kasir_list_text">Kasir :</string>
+    <string name="tanggal_hutang_list_text">Tanggal Hutang :</string>
+    <string name="dummy_tanggal">2022/04/03</string>
+    <string name="edit_text">Edit</string>
+    <string name="delete_text">Delete</string>
 </resources>

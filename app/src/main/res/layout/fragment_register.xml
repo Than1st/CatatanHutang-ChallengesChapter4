@@ -16,11 +16,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/dark_blue" />
+        app:tint="@color/dark_blue"
+        android:contentDescription="@string/regiter_image_text" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/register_text"
         android:textStyle="bold"
         android:layout_margin="12dp"
         android:textSize="24sp"
@@ -35,7 +36,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginTop="64dp"
         android:layout_marginBottom="8dp"
-        android:hint="Username"
+        android:hint="@string/username_text"
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/ic_baseline_person_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +56,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
-        android:hint="Password"
+        android:hint="@string/password_text"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +79,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
-        android:hint="Confirm Password"
+        android:hint="@string/confirm_password_text"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +102,7 @@
         android:layout_marginEnd="24dp"
         android:layout_weight="1"
         android:padding="16dp"
-        android:text="register"
+        android:text="@string/register_text"
         android:backgroundTint="@color/dark_blue"
         app:cornerRadius="6dp"
         app:layout_constraintTop_toBottomOf="@id/et_layout_confirm_password"/>
@@ -120,7 +121,7 @@
         android:id="@+id/tv_atau"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Atau"
+        android:text="@string/atau_text"
         android:layout_margin="12dp"
         app:layout_constraintTop_toBottomOf="@id/btn_register"
         app:layout_constraintStart_toStartOf="@id/btn_register"
@@ -146,7 +147,7 @@
         android:layout_weight="1"
         android:padding="16dp"
         app:backgroundTint="@color/dark_blue"
-        android:text="Login"
+        android:text="@string/login_text"
         app:cornerRadius="6dp"
         app:layout_constraintTop_toBottomOf="@id/tv_atau"/>
 

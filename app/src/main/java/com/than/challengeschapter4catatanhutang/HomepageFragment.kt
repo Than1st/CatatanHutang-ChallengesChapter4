@@ -76,7 +76,7 @@ class HomepageFragment : Fragment() {
         }
         binding.toolbar.tvWelcome.text = getString(R.string.dummy_selamat_datang_text, nama)
         binding.toolbar.btnTextLogout.setOnClickListener{
-            AlertDialog.Builder(requireContext()).setPositiveButton("Logout"){ p0, p1 ->
+            AlertDialog.Builder(requireContext()).setPositiveButton("Logout"){ _, _ ->
                 val editor = sharedPreferences.edit()
                 editor.clear()
                 editor.apply()

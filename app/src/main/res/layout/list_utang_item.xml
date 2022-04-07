@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,14 +23,15 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Nama Pengutang :"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:text="@string/nama_pengutang_list_text"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="NestedWeights" />
             <TextView
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAlignment="textEnd"
-                android:text="Jumlah Hutang :"
+                android:text="@string/jumlah_hutang_list_text"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </LinearLayout>
         <LinearLayout
@@ -43,8 +45,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="24sp"
-                android:text="Sulthan"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:text="@string/dummy_nama"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="NestedWeights" />
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/tv_jumlah_hutang"
@@ -52,7 +55,7 @@
                 android:layout_height="match_parent"
                 android:textSize="24sp"
                 android:textAlignment="textEnd"
-                android:text="Rp. 200.000"
+                android:text="@string/dummy_jumlah"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </LinearLayout>
         <LinearLayout
@@ -64,14 +67,14 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Kasir :"
+                android:text="@string/kasir_list_text"
                 app:layout_constraintStart_toStartOf="parent"/>
             <TextView
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAlignment="textEnd"
-                android:text="Tanggal Hutang :"
+                android:text="@string/tanggal_hutang_list_text"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </LinearLayout>
         <LinearLayout
@@ -85,8 +88,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="24sp"
-                android:text="Laksono"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:text="@string/dummy_nama"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="NestedWeights" />
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/tv_tanggal_utang"
@@ -94,7 +98,7 @@
                 android:layout_height="match_parent"
                 android:textSize="24sp"
                 android:textAlignment="textEnd"
-                android:text="2022/04/03"
+                android:text="@string/dummy_tanggal"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </LinearLayout>
         <LinearLayout
@@ -109,16 +113,18 @@
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
-                android:text="Edit"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:text="@string/edit_text"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="ButtonStyle,NestedWeights" />
             <Button
                 android:layout_weight="1"
                 android:id="@+id/btn_delete"
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
-                android:text="Delete"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:text="@string/delete_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="ButtonStyle" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
