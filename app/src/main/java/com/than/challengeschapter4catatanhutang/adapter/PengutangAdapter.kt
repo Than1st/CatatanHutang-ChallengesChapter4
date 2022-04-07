@@ -13,6 +13,7 @@ class PengutangAdapter(
     private val update: (Pengutang)->Unit
 ): RecyclerView.Adapter<PengutangAdapter.ViewHolder>() {
 
+
     class ViewHolder(val binding: ListUtangItemBinding): RecyclerView.ViewHolder(binding.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ListUtangItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

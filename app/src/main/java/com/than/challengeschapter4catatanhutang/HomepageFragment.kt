@@ -1,16 +1,22 @@
+@file:Suppress("DEPRECATION")
+
 package com.than.challengeschapter4catatanhutang
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.than.challengeschapter4catatanhutang.adapter.PengutangAdapter
 import com.than.challengeschapter4catatanhutang.database.UtangDatabase
 import com.than.challengeschapter4catatanhutang.databinding.FragmentHomepageBinding
@@ -21,11 +27,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.system.exitProcess
 
 class HomepageFragment : Fragment() {
     private var _binding: FragmentHomepageBinding? = null
     private val binding get() = _binding!!
     private var utangDatabase: UtangDatabase? = null
+    companion object{
+        const val SHAREDFILE = "kotlinsharedreferences"
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +55,33 @@ class HomepageFragment : Fragment() {
         utangDatabase = UtangDatabase.getInstance(requireContext())
         fetchData()
 
+        var backPressed = false
+        utangDatabase = UtangDatabase.getInstance(requireContext())
+        val sharedPreferences = requireContext().getSharedPreferences(SHAREDFILE, Context.MODE_PRIVATE)
+        val nama = sharedPreferences.getString("username", "default_username")
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity()) {
+            if (backPressed) {
+                exitProcess(0)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Tekan sekali lagi untuk keluar!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                backPressed = true
+                Handler().postDelayed({
+                    backPressed = false
+                }, 2000)
+            }
+        }
+        binding.toolbar.tvWelcome.text = getString(R.string.dummy_selamat_datang_text, nama)
+        binding.toolbar.btnTextLogout.setOnClickListener{
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.apply()
+            Toast.makeText(requireContext(), "Anda Telah Logout!", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_homepageFragment2_to_loginFragment)
+        }
         //
         binding.fabAdd.setOnClickListener{
             val dialogBinding = FormPengutangBinding.inflate(LayoutInflater.from(requireContext()))
@@ -58,17 +95,16 @@ class HomepageFragment : Fragment() {
                 dialog.dismiss()
             }
             dialogBinding.btnSubmit.setOnClickListener{
-                val myDB = UtangDatabase.getInstance(requireContext())
                 val dataPengutang = Pengutang(
                     null,
                     dialogBinding.etNamaPengutang.text.toString(),
                     dialogBinding.etJumlahHutang.text.toString().toInt(),
                     dialogBinding.etDeskripsi.text.toString(),
                     getDate(),
-                    "Sulthan"
+                    nama.toString()
                 )
                 lifecycleScope.launch(Dispatchers.IO){
-                    val result = myDB?.pengutangdao()?.insertPengutang(dataPengutang)
+                    val result = utangDatabase?.pengutangdao()?.insertPengutang(dataPengutang)
                     runBlocking(Dispatchers.Main){
                         if (result != 0.toLong()){
                             Toast.makeText(
@@ -104,8 +140,17 @@ class HomepageFragment : Fragment() {
     private fun fetchData(){
         lifecycleScope.launch(Dispatchers.IO){
             val listPengutang = utangDatabase?.pengutangdao()?.getAllPengutang()
+
             activity?.runOnUiThread{
+
                 listPengutang?.let {
+                    if (PengutangAdapter(it, {}, {}, {}).itemCount == 0){
+                        binding.ivKosong.visibility = View.VISIBLE
+                        binding.tvKosong.visibility = View.VISIBLE
+                    } else {
+                        binding.ivKosong.visibility = View.GONE
+                        binding.tvKosong.visibility = View.GONE
+                    }
                     val adapter = PengutangAdapter(
                         it,
                         detail = { pengutang ->
@@ -148,6 +193,8 @@ class HomepageFragment : Fragment() {
                                 .show()
                         },
                         update = { pengutang ->
+                            val sharedPreferences = requireContext().getSharedPreferences(SHAREDFILE, Context.MODE_PRIVATE)
+                            val nama = sharedPreferences.getString("username", "default_username")
                             val dialogBinding = FormPengutangBinding.inflate(LayoutInflater.from(requireContext()))
                             val dialogBuilder = AlertDialog.Builder(requireContext())
                             dialogBuilder.setView(dialogBinding.root)
@@ -157,7 +204,6 @@ class HomepageFragment : Fragment() {
                             dialogBinding.tvTanggal.text = getDate()
                             dialogBinding.tvTitle.text = getString(R.string.edit_pengutang_text)
                             dialogBinding.btnSubmit.text = getString(R.string.update_text)
-                            dialogBinding.tvId.text = "${pengutang.id_pengutang}"
                             dialogBinding.etNamaPengutang.setText(pengutang.nama_pengutang)
                             dialogBinding.etJumlahHutang.setText("${pengutang.jumlah_utang}")
                             dialogBinding.etDeskripsi.setText(pengutang.deskripsi)
@@ -167,12 +213,12 @@ class HomepageFragment : Fragment() {
                             dialogBinding.btnSubmit.setOnClickListener{
                                 val myDB = UtangDatabase.getInstance(requireContext())
                                 val dataPengutang = Pengutang(
-                                    dialogBinding.tvId.text.toString().toInt(),
+                                    pengutang.id_pengutang,
                                     dialogBinding.etNamaPengutang.text.toString(),
                                     dialogBinding.etJumlahHutang.text.toString().toInt(),
                                     dialogBinding.etDeskripsi.text.toString(),
                                     getDate(),
-                                    "Sulthan"
+                                    nama.toString()
                                 )
                                 lifecycleScope.launch(Dispatchers.IO){
                                     val result = myDB?.pengutangdao()?.updatePengutang(dataPengutang)
