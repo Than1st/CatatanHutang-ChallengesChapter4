@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.than.challengeschapter4catatanhutang.HomepageFragment.Companion.SHAREDFILE
 import com.than.challengeschapter4catatanhutang.database.UtangDatabase
 import com.than.challengeschapter4catatanhutang.databinding.FragmentLoginBinding

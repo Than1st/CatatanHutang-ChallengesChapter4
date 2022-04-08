@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.than.challengeschapter4catatanhutang.data.Pengutang
 import com.than.challengeschapter4catatanhutang.databinding.ListUtangItemBinding
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 class PengutangAdapter(
     private val listPengutang: List<Pengutang>,
@@ -20,9 +22,9 @@ class PengutangAdapter(
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: PengutangAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.tvNamaPengutang.text = listPengutang[position].nama_pengutang
-        holder.binding.tvJumlahHutang.text = listPengutang[position].jumlah_utang.toString()
+        holder.binding.tvJumlahHutang.text = currency(listPengutang[position].jumlah_utang)
         holder.binding.tvNamaKasir.text = listPengutang[position].nama_kasir
         holder.binding.tvTanggalUtang.text = listPengutang[position].tanggal
 
@@ -39,5 +41,16 @@ class PengutangAdapter(
 
     override fun getItemCount(): Int {
         return listPengutang.size
+    }
+    private fun currency(angka: Int): String {
+        val kursIndonesia = DecimalFormat.getCurrencyInstance() as DecimalFormat
+        val formatRp = DecimalFormatSymbols()
+
+        formatRp.currencySymbol = "Rp "
+        formatRp.monetaryDecimalSeparator = ','
+        formatRp.groupingSeparator = '.'
+
+        kursIndonesia.decimalFormatSymbols = formatRp
+        return kursIndonesia.format(angka).dropLast(3)
     }
 }
