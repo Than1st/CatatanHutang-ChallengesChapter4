@@ -21,6 +21,7 @@ import com.than.challengeschapter4catatanhutang.adapter.PengutangAdapter
 import com.than.challengeschapter4catatanhutang.database.UtangDatabase
 import com.than.challengeschapter4catatanhutang.databinding.FragmentHomepageBinding
 import com.than.challengeschapter4catatanhutang.data.Pengutang
+import com.than.challengeschapter4catatanhutang.database.PengutangRepository
 import com.than.challengeschapter4catatanhutang.databinding.FormPengutangBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +34,7 @@ class HomepageFragment : Fragment() {
     private var _binding: FragmentHomepageBinding? = null
     private val binding get() = _binding!!
     private var utangDatabase: UtangDatabase? = null
+    lateinit var repository: PengutangRepository
     companion object{
         const val SHAREDFILE = "kotlinsharedreferences"
     }
@@ -52,6 +54,7 @@ class HomepageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        repository = PengutangRepository(requireContext())
         utangDatabase = UtangDatabase.getInstance(requireContext())
         fetchData()
 
@@ -112,7 +115,7 @@ class HomepageFragment : Fragment() {
                     nama.toString()
                 )
                 lifecycleScope.launch(Dispatchers.IO){
-                    val result = utangDatabase?.pengutangdao()?.insertPengutang(dataPengutang)
+                    val result = repository.insertpengutang(dataPengutang)
                     runBlocking(Dispatchers.Main){
                         if (result != 0.toLong()){
                             Toast.makeText(
@@ -147,7 +150,7 @@ class HomepageFragment : Fragment() {
 
     private fun fetchData(){
         lifecycleScope.launch(Dispatchers.IO){
-            val listPengutang = utangDatabase?.pengutangdao()?.getAllPengutang()
+            val listPengutang =  repository.getALlPengutang()
 
             activity?.runOnUiThread{
 
@@ -171,9 +174,9 @@ class HomepageFragment : Fragment() {
                         delete = { pengutang ->
                             AlertDialog.Builder(requireContext())
                                 .setPositiveButton("Iya"){_,_ ->
-                                    val mDb = UtangDatabase.getInstance(requireContext())
+
                                     lifecycleScope.launch(Dispatchers.IO){
-                                        val result = mDb?.pengutangdao()?.deletePengutang(pengutang)
+                                        val result = repository.deletePengutang(pengutang)
                                         activity?.runOnUiThread{
                                             if(result != 0){
                                                 Toast.makeText(
@@ -219,7 +222,6 @@ class HomepageFragment : Fragment() {
                                 dialog.dismiss()
                             }
                             dialogBinding.btnSubmit.setOnClickListener{
-                                val myDB = UtangDatabase.getInstance(requireContext())
                                 val dataPengutang = Pengutang(
                                     pengutang.id_pengutang,
                                     dialogBinding.etNamaPengutang.text.toString(),
@@ -229,7 +231,7 @@ class HomepageFragment : Fragment() {
                                     nama.toString()
                                 )
                                 lifecycleScope.launch(Dispatchers.IO){
-                                    val result = myDB?.pengutangdao()?.updatePengutang(dataPengutang)
+                                    val result = repository.updatePengutang(dataPengutang)
                                     runBlocking(Dispatchers.Main){
                                         if (result != 0){
                                             Toast.makeText(

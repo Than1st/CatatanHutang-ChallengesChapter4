@@ -10,7 +10,7 @@ interface PengutangDao {
     fun getAllPengutang(): List<Pengutang>
 
     @Insert(onConflict = REPLACE)
-    fun insertPengutang(pengutang: Pengutang):Long
+    fun insertPengutang(pengutang: Pengutang): Long
 
     @Update
     fun updatePengutang(pengutang: Pengutang):Int
